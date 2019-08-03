@@ -27,15 +27,23 @@ class ChannelController extends Controller
     }
 
     /**
-     * @Route("/channel/show/{id}")
+     * @Route("/channel/{name}", name="channel_show")
      */
-    public function showAction($id) {
-      $channel = $this->getDoctrine()->getRepository(Channel::class)->find($id);
+    public function showAction($name) {
+      $channel = $this->getDoctrine()->getRepository(Channel::class)->findOneByName($name);
+      $channels = $this->getDoctrine()->getRepository(Channel::class)->findAll();
 
+      if(!$channels) {
+        throw $this->createNotFoundException('No channel found for name: '.$name);
+      }
       if(!$channel) {
-        throw $this->createNotFoundException('No channel found for id '.$id);
+        throw $this->createNotFoundException('findAll FAILURE');
       }
 
-      return new Response('This channel id '.$channel->getId());
+
+      return $this->render('channel/channel.html.twig', [
+        'currentChannel' => $channel,
+        'channels' => $channels,
+      ]);
     }
 }

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <ul>
+    {% for channel in channels %}
+      <li><a href="{{ path('channel_show', {'name': channel.name}) }}">
+        {{ channel.name }}
+      </a></li>
+    {% endfor %}
+  </ul>
+
+  <h2>{{ currentChannel.name }}</h2>
+
+
+{% endblock %}
