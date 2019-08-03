@@ -3,10 +3,13 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="channel")
+ * @UniqueEntity("name")
  */
 
 class Channel {
@@ -19,6 +22,7 @@ class Channel {
 
   /**
    * @ORM\Column(type="string", length=50)
+   * @Assert\NotBlank
    */
   private $name;
 
