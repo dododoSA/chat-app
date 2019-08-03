@@ -8,12 +8,12 @@
           {{ channel.name }}
         </a>  
         <a href="{{ path('channel_edit', {'name': channel.name}) }}">名前変更</a> 
+        <a href="{{ path('channel_delete', {'name': channel.name}) }}">削除</a>
       </li>
     {% endfor %}
   </ul>
   <a href="{{ path('channel_new') }}">+</a>
 
-  <h2>{{ currentChannel.name }}</h2>
-
+<p>this is index page</p>
 
 {% endblock %}

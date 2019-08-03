@@ -10,13 +10,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
+
 class ChannelController extends Controller
 {
+    /**
+     * @Route("/channel", name="channel_index")
+     */
+    public function indexAction() {
+      $channels = $this->getDoctrine()->getRepository(Channel::class)->findAll();
+
+      return $this->render('channel/index.html.twig', [
+        'channels' => $channels,
+      ]);
+    }
   
     /**
      * @Route("/channel/new", name="channel_new")
      */
-    public function newAction(Request $requset){
+    public function newAction(Request $request){
       $channel = new Channel();
 
       $form = $this->createFormBuilder($channel)
@@ -24,7 +35,7 @@ class ChannelController extends Controller
         ->add('save', SubmitType::class, ['label' => 'Create Channel'])
         ->getForm();
 
-      $form->handleRequest($requset);
+      $form->handleRequest($request);
 
       if($form->isSubmitted() && $form->isValid()) {
         
@@ -44,24 +55,69 @@ class ChannelController extends Controller
 
 
     /**
-     * @Route("/channel/show/{name}", name="channel_show")
-     * 
+     * @Route("/channel/{name}/edit", name="channel_edit")
+     */
+    public function editAction(Request $request, $name) {
+      $channel = $this->getDoctrine()->getRepository(Channel::class)->findOneByName($name);
+
+      if(!$channel) {
+        throw $this->createNotFoundException('No channel found for name: '.$name);
+      }
+
+      $form = $this->createFormBuilder($channel)
+        ->add('name', TextType::class)
+        ->add('save', SubmitType::class, ['label' => 'Change Name'])
+        ->getForm();
+
+      $form->handleRequest($request);
+      if($form->isSubmitted() && $form->isValid()) {
+        $channel = $form->getData();
+
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        //もともといたチャンネルに戻るようにしたい
+        return $this->redirectToRoute('channel_show', ['name' => $channel->getName()]);
+      }
+
+      return $this->render('channel/edit.html.twig', [
+        'form' => $form->createView(),
+      ]);
+    }
+
+    /**
+     * @Route("/channel/{name}/show", name="channel_show")
      */
     public function showAction($name) {
       $channel = $this->getDoctrine()->getRepository(Channel::class)->findOneByName($name);
       $channels = $this->getDoctrine()->getRepository(Channel::class)->findAll();
 
-      if(!$channels) {
+      if(!$channel) {
         throw $this->createNotFoundException('No channel found for name: '.$name);
       }
-      if(!$channel) {
-        throw $this->createNotFoundException('findAll FAILURE');
-      }
-
+      
+      $threads = $this->getDoctrine()->getRepository(Thread::class)->findByChannelId($channel->getId());
 
       return $this->render('channel/show.html.twig', [
         'currentChannel' => $channel,
         'channels' => $channels,
       ]);
+    }
+
+    /**
+     * @Route("/channel/{name}/delete", name="channel_delete")
+     */
+    public function deleteAction(Request $request, $name) {
+      $channel = $this->getDoctrine()->getRepository(Channel::class)->findOneByName($name);
+
+      if(!$channel) {
+        throw $this->createNotFoundException('No channel found for name: '.$name);
+      }
+
+      $em = $this->getDoctrine()->getManager();
+      $em->remove($channel);
+      $em->flush();
+
+      return $this->redirectToRoute('channel_index');
     }
 }
