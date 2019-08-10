@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Channel;
 use AppBundle\Entity\Thread;
+use AppBundle\Entity\User;
 use AppBundle\Form\ThreadType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -106,6 +107,9 @@ class ChannelController extends Controller
       }
       
       $threads = $this->getDoctrine()->getRepository(Thread::class)->findByChannelId($channel->getId());
+      foreach ($threads as $t) {
+        $t->setUsername($this->getDoctrine()->getRepository(User::class)->findOneById($t->getUserId())->getUsername());
+      }
 
       return $this->render('channel/show.html.twig', [
         'currentChannel' => $channel,

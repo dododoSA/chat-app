@@ -53,6 +53,9 @@ class User implements AdvancedUserInterface, \Serializable
     private $isActive;
 
 
+    public function getId() {
+        return $this->id;
+    }
 
     public function __construct()
     {

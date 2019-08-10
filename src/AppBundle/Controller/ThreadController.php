@@ -29,7 +29,7 @@ class ThreadController extends Controller
 
         $thread = $form->getData();
         $thread->setChannelId($channel->getId());
-        $thread->setUserId(0);
+        $thread->setUserId($this->getUser()->getId());
 
         $em->persist($thread);
         $em->flush();
