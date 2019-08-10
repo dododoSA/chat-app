@@ -14,6 +14,10 @@
   <a href="{{ path('channel_new') }}">+</a>
 
   <h2>{{ currentChannel.name }}</h2>
+  {% for thread in threads %}
+    <p>{{ thread.content }}</p>
+  {% endfor %}
 
+  {{ include('thread/new.html.twig', {'form' : form}) }}
 
 {% endblock %}

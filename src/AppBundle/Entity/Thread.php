@@ -25,12 +25,12 @@ class Thread {
   /**
    * @ORM\Column(type="integer")
    */
-  private $channel_id;
+  private $channelId;
 
   /**
    * @ORM\Column(type="integer")
    */
-  private $user_id;
+  private $userId;
 
     /**
      * Get id
@@ -75,7 +75,7 @@ class Thread {
      */
     public function setChannelId($channelId)
     {
-        $this->channel_id = $channelId;
+        $this->channelId = $channelId;
 
         return $this;
     }
@@ -87,7 +87,7 @@ class Thread {
      */
     public function getChannelId()
     {
-        return $this->channel_id;
+        return $this->channelId;
     }
 
     /**
@@ -99,7 +99,7 @@ class Thread {
      */
     public function setUserId($userId)
     {
-        $this->user_id = $userId;
+        $this->userId = $userId;
 
         return $this;
     }
@@ -111,6 +111,6 @@ class Thread {
      */
     public function getUserId()
     {
-        return $this->user_id;
+        return $this->userId;
     }
 }

@@ -5,6 +5,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use AppBundle\Entity\Channel;
+use AppBundle\Entity\Thread;
+use AppBundle\Form\ThreadType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -89,6 +91,12 @@ class ChannelController extends Controller
      * @Route("/channel/{name}/show", name="channel_show")
      */
     public function showAction($name) {
+      $thread = new Thread();
+      $form = $this->createForm(ThreadType::class, $thread, [
+        'action' => $this->generateUrl('thread_new', ['name' => $name]),
+        'method' => 'POST',
+      ]);
+
       $channel = $this->getDoctrine()->getRepository(Channel::class)->findOneByName($name);
       $channels = $this->getDoctrine()->getRepository(Channel::class)->findAll();
 
@@ -101,6 +109,8 @@ class ChannelController extends Controller
       return $this->render('channel/show.html.twig', [
         'currentChannel' => $channel,
         'channels' => $channels,
+        'threads' => $threads,
+        'form' => $form->createView(),
       ]);
     }
 
