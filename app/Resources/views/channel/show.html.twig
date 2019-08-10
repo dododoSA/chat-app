@@ -15,7 +15,9 @@
 
   <h2>{{ currentChannel.name }}</h2>
   {% for thread in threads %}
-    <p>{{ thread.content }}</p>
+    <p>{{ thread.content }}</p> 
+    <a href="{{path('thread_edit', {'name': currentChannel.name, 'id': thread.id })}}">編集</a>
+    <a href="{{path('thread_delete', {'name': currentChannel.name, 'id': thread.id })}}">削除</a>
   {% endfor %}
 
   {{ include('thread/new.html.twig', {'form' : form}) }}

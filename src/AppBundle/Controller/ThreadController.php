@@ -40,5 +40,52 @@ class ThreadController extends Controller
         'form' => $form->createView(),
       ]);
     }
+
+    /**
+     * @Route("/channel/{name}/thread/{id}/edit", name="thread_edit")
+     */
+    public function editAction(Request $request, $name, $id) {
+      $thread = $this->getDoctrine()->getRepository(Thread::class)->find($id);
+
+      if(!$thread) {
+        throw $this->createNotFoundException('No thread found for name: '.$name);
+      }
+
+
+      $form = $this->createForm(ThreadType::class, $thread);
+
+      $form->handleRequest($request);
+
+      if($form->isSubmitted() && $form->isValid()) {
+        $thread = $form->getData();
+
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        //もともといたチャンネルに戻るようにしたい
+        return $this->redirectToRoute('channel_show', ['name' => $name]);
+      }
+
+      return $this->render('thread/edit.html.twig', [
+        'form' => $form->createView(),
+      ]);
+    }
+
+    /**
+     * @Route("/channel/{name}/thread/{id}/delete", name="thread_delete")
+     */
+    public function deleteAction(Request $request, $name, $id) {
+      $thread = $this->getDoctrine()->getRepository(Thread::class)->findOneById($id);
+
+      if(!$thread) {
+        throw $this->createNotFoundException('No channel found for name: '.$name);
+      }
+
+      $em = $this->getDoctrine()->getManager();
+      $em->remove($thread);
+      $em->flush();
+
+      return $this->redirectToRoute('channel_show', ['name' => $name]);
+    }
 }
 
