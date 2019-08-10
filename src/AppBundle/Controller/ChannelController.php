@@ -39,7 +39,7 @@ class ChannelController extends Controller
 
       $form->handleRequest($request);
 
-      if($form->isSubmitted() && $form->isValid()) {
+      if($form->isSubmitted() && $form->isValid() && $this->getUser()) {
         
         $em = $this->getDoctrine()->getManager();
 
@@ -72,7 +72,7 @@ class ChannelController extends Controller
         ->getForm();
 
       $form->handleRequest($request);
-      if($form->isSubmitted() && $form->isValid()) {
+      if($form->isSubmitted() && $form->isValid() && $this->getUser()) {
         $channel = $form->getData();
 
         $em = $this->getDoctrine()->getManager();
@@ -84,6 +84,7 @@ class ChannelController extends Controller
 
       return $this->render('channel/edit.html.twig', [
         'form' => $form->createView(),
+        'channelName' => $name
       ]);
     }
 

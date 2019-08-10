@@ -8,6 +8,12 @@
     </head>
     <body>
         <a href="{{ path('channel_index') }}">Index</a>
+        {% if app.user %}
+            <a href="{{path('logout')}}">ログアウト</a>
+        {% else %}
+            <a href="{{ path('login')}}">ログイン</a>
+            <a href="{{ path('user_registration')}}">ユーザー登録</a>
+        {% endif %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>

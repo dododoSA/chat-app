@@ -23,7 +23,7 @@ class ThreadController extends Controller
 
       $form->handleRequest($request);
 
-      if($form->isSubmitted() && $form->isValid()) {
+      if($form->isSubmitted() && $form->isValid() && $this->getUser()) {
         $channel = $this->getDoctrine()->getRepository(Channel::class)->findOneByName($name);
         $em = $this->getDoctrine()->getManager();
 
@@ -56,18 +56,18 @@ class ThreadController extends Controller
 
       $form->handleRequest($request);
 
-      if($form->isSubmitted() && $form->isValid()) {
+      if($form->isSubmitted() && $form->isValid() && $this->getUser()) {
         $thread = $form->getData();
 
         $em = $this->getDoctrine()->getManager();
         $em->flush();
 
-        //もともといたチャンネルに戻るようにしたい
         return $this->redirectToRoute('channel_show', ['name' => $name]);
       }
 
       return $this->render('thread/edit.html.twig', [
         'form' => $form->createView(),
+        'channelName' => $name,
       ]);
     }
 
