@@ -23,7 +23,7 @@ class ThreadController extends Controller
 
       $form->handleRequest($request);
 
-      if($form->isSubmitted() && $form->isValid() && $this->getUser()->getId() == $form->getData()->getUserId()) {
+      if($form->isSubmitted() && $form->isValid() && $this->getUser()) {
         $channel = $this->getDoctrine()->getRepository(Channel::class)->findOneByName($name);
         $em = $this->getDoctrine()->getManager();
 

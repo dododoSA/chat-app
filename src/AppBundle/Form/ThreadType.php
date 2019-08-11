@@ -11,8 +11,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ThreadType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
-			->add('content', TextType::class)
-			->add('投稿', SubmitType::class);
+			->add('content', TextType::class, [
+				'attr' => ['style' => 'display:inline;']
+			])
+			->add('save', SubmitType::class, [
+				'label' => '投稿',
+				'attr' => ['class' => 'btn btn-primary', 'style' => 'display:inline;']
+			]);
 	}
 
 	public function configureOptions(OptionsResolver $resolver) {

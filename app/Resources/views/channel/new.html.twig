@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-  <div class="container">
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
-  </div>
+  <div class="container mt-5">
+    <div class="">
+      {{ form_start(form) }}
+      {{ form_widget(form) }}
+      {{ form_end(form) }}
+    </div>
   
-  <a href="{{ app.request.headers.get('referer') }}">戻る</a>
+    <div class="mt-3">
+      <a href="{{ app.request.headers.get('referer') }}">戻る</a>
+    </div>
+  </div>
 {% endblock %}

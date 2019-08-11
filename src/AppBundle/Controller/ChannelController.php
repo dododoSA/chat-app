@@ -34,8 +34,8 @@ class ChannelController extends Controller
       $channel = new Channel();
 
       $form = $this->createFormBuilder($channel)
-        ->add('name', TextType::class)
-        ->add('save', SubmitType::class, ['label' => 'Create Channel'])
+        ->add('name', TextType::class, ['label' => 'ChannelName'])
+        ->add('save', SubmitType::class, ['label' => 'Create Channel', 'attr' => ['class' => 'btn btn-primary']])
         ->getForm();
 
       $form->handleRequest($request);
@@ -69,7 +69,7 @@ class ChannelController extends Controller
 
       $form = $this->createFormBuilder($channel)
         ->add('name', TextType::class)
-        ->add('save', SubmitType::class, ['label' => 'Change Name'])
+        ->add('save', SubmitType::class, ['label' => 'Change Name', 'attr' => ['class' => 'btn btn-primary']])
         ->getForm();
 
       $form->handleRequest($request);
