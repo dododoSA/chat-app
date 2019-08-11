@@ -1,31 +1,38 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-  <ul>
-    {% for channel in channels %}
-      <li>
-        <a href="{{ path('channel_show', {'name': channel.name}) }}">
-          {{ channel.name }}
-        </a>  
-        {% if app.user %}
-          <a href="{{ path('channel_edit', {'name': channel.name}) }}">名前変更</a> 
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-  {% if app.user %}
-    <a href="{{ path('channel_new') }}">+</a>
-  {% endif %}
-
-  <h2>{{ currentChannel.name }}</h2>
-  {% for thread in threads %}
-    <p>{{ thread.content }}</p> 
-    {% if app.user.id == thread.userId %}
-    <a href="{{path('thread_edit', {'name': currentChannel.name, 'id': thread.id })}}">編集</a>
-    <a href="{{path('thread_delete', {'name': currentChannel.name, 'id': thread.id })}}">削除</a>
+  <div>
+    <ul>
+      {% for channel in channels %}
+        <li>
+          <a href="{{ path('channel_show', {'name': channel.name}) }}">
+            {{ channel.name }}
+          </a>  
+          {% if app.user %}
+            <a href="{{ path('channel_edit', {'name': channel.name}) }}">名前変更</a> 
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+    {% if app.user %}
+      <a href="{{ path('channel_new') }}">+</a>
     {% endif %}
-    by {{thread.username}}
-  {% endfor %}
+  </div>
+
+  <div class="container">
+    <h2>{{ currentChannel.name }}</h2>
+
+    {% for thread in threads %}
+      <p>
+        {{ thread.content }}
+        by {{thread.username}}
+        {% if app.user.id == thread.userId %}
+          <a href="{{path('thread_edit', {'name': currentChannel.name, 'id': thread.id })}}">編集</a>
+          <a href="{{path('thread_delete', {'name': currentChannel.name, 'id': thread.id })}}">削除</a>
+        {% endif %}
+        </p> 
+    {% endfor %}
+  </div>
 
   {% if app.user %}
     {{ include('thread/new.html.twig', {'form' : form}) }}

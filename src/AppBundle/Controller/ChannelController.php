@@ -129,9 +129,11 @@ class ChannelController extends Controller
         throw $this->createNotFoundException('No channel found for name: '.$name);
       }
 
-      $em = $this->getDoctrine()->getManager();
-      $em->remove($channel);
-      $em->flush();
+      if ($this->getUser()){
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($channel);
+        $em->flush();
+      }
 
       return $this->redirectToRoute('channel_index');
     }

@@ -12,7 +12,7 @@ class ThreadType extends AbstractType {
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder
 			->add('content', TextType::class)
-			->add('save', SubmitType::class);
+			->add('投稿', SubmitType::class);
 	}
 
 	public function configureOptions(OptionsResolver $resolver) {

@@ -23,7 +23,7 @@ class ThreadController extends Controller
 
       $form->handleRequest($request);
 
-      if($form->isSubmitted() && $form->isValid() && $this->getUser()) {
+      if($form->isSubmitted() && $form->isValid() && $this->getUser()->getId() == $form->getData()->getUserId()) {
         $channel = $this->getDoctrine()->getRepository(Channel::class)->findOneByName($name);
         $em = $this->getDoctrine()->getManager();
 
@@ -56,7 +56,7 @@ class ThreadController extends Controller
 
       $form->handleRequest($request);
 
-      if($form->isSubmitted() && $form->isValid() && $this->getUser()) {
+      if($form->isSubmitted() && $form->isValid() && $this->getUser()->getId() == $thread->getUserId()) {
         $thread = $form->getData();
 
         $em = $this->getDoctrine()->getManager();
@@ -81,9 +81,11 @@ class ThreadController extends Controller
         throw $this->createNotFoundException('No channel found for name: '.$name);
       }
 
-      $em = $this->getDoctrine()->getManager();
-      $em->remove($thread);
-      $em->flush();
+      if ($this->getUser()->getId() == $thread->getUserId()){
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($thread);
+        $em->flush();
+      }
 
       return $this->redirectToRoute('channel_show', ['name' => $name]);
     }
