@@ -1,41 +1,48 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-  <div>
-    <ul>
-      {% for channel in channels %}
-        <li>
-          <a href="{{ path('channel_show', {'name': channel.name}) }}">
+  <div class="row">
+    <div class="col-4">
+      {% if app.user %}
+        <a href="{{ path('channel_new') }}">+</a>
+      {% endif %}
+
+      <div class="list-group">
+        {% for channel in channels %}
+          <a class="list-group-item list-group-item-action" href="{{ path('channel_show', {'name': channel.name}) }}">
             {{ channel.name }}
           </a>  
-          {% if app.user %}
-            <a href="{{ path('channel_edit', {'name': channel.name}) }}">名前変更</a> 
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-8">
+      <h2>{{ currentChannel.name }}</h2>
+      {% if app.user %}
+        <a class="" href="{{ path('channel_edit', {'name': currentChannel.name}) }}">名前変更</a> 
+      {% endif %}
+
+      {% for thread in threads %}
+        <p>
+          {{ thread.content }}
+          by {{thread.username}}
+          {% if app.user.id == thread.userId %}
+            <a href="{{path('thread_edit', {'name': currentChannel.name, 'id': thread.id })}}">編集</a>
+            <a href="{{path('thread_delete', {'name': currentChannel.name, 'id': thread.id })}}">削除</a>
           {% endif %}
-        </li>
+          </p> 
       {% endfor %}
-    </ul>
-    {% if app.user %}
-      <a href="{{ path('channel_new') }}">+</a>
-    {% endif %}
+      
+    </div>
   </div>
 
-  <div class="container">
-    <h2>{{ currentChannel.name }}</h2>
-
-    {% for thread in threads %}
-      <p>
-        {{ thread.content }}
-        by {{thread.username}}
-        {% if app.user.id == thread.userId %}
-          <a href="{{path('thread_edit', {'name': currentChannel.name, 'id': thread.id })}}">編集</a>
-          <a href="{{path('thread_delete', {'name': currentChannel.name, 'id': thread.id })}}">削除</a>
-        {% endif %}
-        </p> 
-    {% endfor %}
+  <div class="row fixed-bottom mb-3">
+    <div class="col-8 offset-4">
+      {% if app.user %}
+        {{ include('thread/new.html.twig', {'form' : form}) }}
+      {% endif %}
+    </div>
   </div>
 
-  {% if app.user %}
-    {{ include('thread/new.html.twig', {'form' : form}) }}
-  {% endif %}
 
 {% endblock %}
