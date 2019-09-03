@@ -1,7 +1,21 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+      <router-link to="/">Index</router-link>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+            <!--a-- class="nav-link" href="{{path('logout')}}">ログアウト</!--a-->
+        </li>
+        <li class="nav-item">
+          <router-link to="/login">ログイン</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/signup">ユーザー登録</router-link>
+        </li>
+      </ul>
+    </nav>
+    
+    <router-view></router-view>
   </div>
 </template>
 
