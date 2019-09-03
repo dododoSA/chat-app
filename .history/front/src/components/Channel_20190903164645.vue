@@ -20,13 +20,7 @@ export default {
     },
     created: function() {
         let _this = this
-        axios.get("http://localhost:8000/channel")
-            .then(function(response) {
-                _this.channels = response.data
-            })
-            .catch(function(error){
-                console.log(error)
-            })
+        axios.get("/channels")
     },
 }
 </script>

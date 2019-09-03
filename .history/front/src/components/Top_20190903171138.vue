@@ -9,7 +9,7 @@ import Channel from './Channel.vue'
 
 export default {
     name: 'Top',
-    components: {
+    comments: {
         Channel
     }
 }

@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
+$serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
 
 
 class ChannelController extends Controller
@@ -35,13 +36,7 @@ class ChannelController extends Controller
     public function indexAction() {
       $channels = $this->getDoctrine()->getRepository(Channel::class)->findAll();
 
-      $serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
-      $jsonContent = $serializer->serialize($channels, 'json');
-      $response = new Response();
-      $response->setContent($jsonContent);
-      $response->headers->set('Content-Type', 'application/json');
-      $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
-      return $response;
+      return  new JsonResponse($channels);
     }
   
     /**

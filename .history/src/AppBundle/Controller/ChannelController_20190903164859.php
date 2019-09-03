@@ -5,9 +5,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use AppBundle\Entity\Channel;
 use AppBundle\Entity\Thread;
 use AppBundle\Entity\User;
@@ -16,7 +13,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
 
 
 class ChannelController extends Controller
@@ -35,13 +31,7 @@ class ChannelController extends Controller
     public function indexAction() {
       $channels = $this->getDoctrine()->getRepository(Channel::class)->findAll();
 
-      $serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
-      $jsonContent = $serializer->serialize($channels, 'json');
-      $response = new Response();
-      $response->setContent($jsonContent);
-      $response->headers->set('Content-Type', 'application/json');
-      $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
-      return $response;
+      return  new JsonResponse($channels)
     }
   
     /**

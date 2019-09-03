@@ -5,11 +5,11 @@
 </template>
 
 <script>
-import Channel from './Channel.vue'
+import Channel from './Channel'
 
 export default {
     name: 'Top',
-    components: {
+    comments: {
         Channel
     }
 }

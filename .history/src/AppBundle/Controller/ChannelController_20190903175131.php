@@ -40,7 +40,8 @@ class ChannelController extends Controller
       $response = new Response();
       $response->setContent($jsonContent);
       $response->headers->set('Content-Type', 'application/json');
-      $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
+      $response->headers->set('Access-Control-Allow-Origin', 'localhost:8080');
+      $response->headers->set('X-Access-Control-Allow-Origin', 'localhost:8080');
       return $response;
     }
   

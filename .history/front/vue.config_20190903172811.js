@@ -4,6 +4,5 @@ module.exports = {
     output: {
       filename: 'app.js'
     }
-  },
-  filenameHashing: false
+  }
 }

@@ -20,7 +20,7 @@ export default {
     },
     created: function() {
         let _this = this
-        axios.get("http://localhost:8000/channel")
+        axios.get("/channel")
             .then(function(response) {
                 _this.channels = response.data
             })

@@ -37,11 +37,7 @@ class ChannelController extends Controller
 
       $serializer = new Serializer([new ObjectNormalizer()], [new JsonEncoder()]);
       $jsonContent = $serializer->serialize($channels, 'json');
-      $response = new Response();
-      $response->setContent($jsonContent);
-      $response->headers->set('Content-Type', 'application/json');
-      $response->headers->set('Access-Control-Allow-Origin', 'http://localhost:8080');
-      return $response;
+      return  new JsonResponse($jsonContent);
     }
   
     /**
