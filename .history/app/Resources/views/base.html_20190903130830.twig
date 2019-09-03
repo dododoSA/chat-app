@@ -30,7 +30,9 @@
             <div id='app'></div>
         {% endblock %}
         {% block javascripts %}
-            <script src="{{ asset('app.js') }}"></script>
+            {% javascripts '@AppBundle/Resources/js/*' %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
         {% endblock %}
     </body>
 </html>

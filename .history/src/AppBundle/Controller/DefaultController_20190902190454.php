@@ -14,6 +14,6 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('default/index.html.twig');
+        return $this->file($this->get('kernel')->getRootDir().'/../front/dist/index.html');
     }
 }
